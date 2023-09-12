@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'publisher = fws_publisher.publisher:main',
+            'odometry = fws_publisher.odometry:main'
         ],
     },
 )

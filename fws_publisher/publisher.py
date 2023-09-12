@@ -29,6 +29,9 @@ class KinematicsCalculator(Node):
             '/wheel_velocity_controller/commands',
             10)
 
+        # Define r as calss attribute
+        self.r = 0.065
+
         # Define the given value for L as a class attribute
         self.L = 0.2
 
@@ -38,7 +41,9 @@ class KinematicsCalculator(Node):
 
     def twist_callback(self, msg):
         # Extract linear and angular velocity from Twist message
-        V = math.sqrt(msg.linear.x ** 2 + msg.linear.y ** 2)
+        V_x = msg.linear.x
+        V_y = msg.linear.y
+        V = math.sqrt(V_x ** 2 + V_y ** 2)
         psi_dot = msg.angular.z
 
         # Access the L, delta_A, and delta_B attributes from the class
@@ -74,10 +79,15 @@ class KinematicsCalculator(Node):
         v_A = V * cos_beta / cos_delta_A
         v_B = V * cos_beta / cos_delta_B
 
+        # Calculate wheel angular velocities (ω_A and ω_B)
+        omega_A = v_A / self.r
+        omega_B = v_B / self.r
+
         # Publish the calculated values to the command topics
         steering_msg = Float64MultiArray(
-            data=[self.delta_A, self.delta_B, self.delta_A, self.delta_B])
-        wheel_msg = Float64MultiArray(data=[v_A, v_B, v_A, v_B])
+            data=[self.delta_A, self.delta_A, self.delta_B, self.delta_B])
+        wheel_msg = Float64MultiArray(
+            data=[omega_A, omega_A, omega_B, omega_B])
 
         self.steering_pub.publish(steering_msg)
         self.wheel_pub.publish(wheel_msg)
