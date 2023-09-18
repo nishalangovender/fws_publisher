@@ -29,6 +29,9 @@ class KinematicsCalculator(Node):
             '/wheel_velocity_controller/commands',
             10)
 
+        # Initialize variables to track whether Twist messages have been received
+        self.twist_received = False
+
     def twist_callback(self, msg):
 
         # Parameters
@@ -84,10 +87,36 @@ class KinematicsCalculator(Node):
         self.steering_pub.publish(steering_msg)
         self.wheel_pub.publish(wheel_msg)
 
+        # Set the flag to indicate that Twist messages have been received
+        self.twist_received = True
+
+    def publish_idle_transforms(self):
+        # Publish default or idle values for steering angle and wheel angular velocities
+        steering_msg = Float64MultiArray(
+            data=[0.0, 0.0, 0.0, 0.0])  # Set to zero or your desired default value
+        wheel_msg = Float64MultiArray(
+            data=[0.0, 0.0, 0.0, 0.0])  # Set to zero or your desired default value
+
+        self.steering_pub.publish(steering_msg)
+        self.wheel_pub.publish(wheel_msg)
+
+    def timer_callback(self):
+        # Check if Twist messages have not been received and publish idle transforms if necessary
+        if not self.twist_received:
+            self.publish_idle_transforms()
+
+        # Reset the flag to indicate that Twist messages have not been received
+        self.twist_received = False
+
 
 def main(args=None):
     rclpy.init(args=args)
     node = KinematicsCalculator()
+
+    # Create a timer to periodically check and publish idle transforms
+    timer_period = 5.0  # Adjust this period as needed
+    timer = node.create_timer(timer_period, node.timer_callback)
+
     rclpy.spin(node)
     rclpy.shutdown()
 
