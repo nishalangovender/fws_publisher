@@ -15,13 +15,12 @@ setup(
     zip_safe=True,
     maintainer='nishalangovender',
     maintainer_email='nishalan.govender@gmail.com',
-    description='Converts Twist messages to joint position/velocity commands nad publishes them',
+    description='Converts Twist messages to joint position/velocity commands and publishes them',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'publisher = fws_publisher.publisher:main',
-            'odometry = fws_publisher.odometry:main'
+            'publisher = fws_publisher.publisher:main'
         ],
     },
 )
