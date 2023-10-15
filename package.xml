@@ -3,7 +3,7 @@
 <package format="3">
   <name>fws_publisher</name>
   <version>0.0.0</version>
-  <description>Converts Twist messages to joint position/velocity commands nad publishes them</description>
+  <description>Converts Twist messages to joint position/velocity commands and publishes them</description>
   <maintainer email="nishalan.govender@gmail.com">nishalangovender</maintainer>
   <license>TODO: License declaration</license>
 

@@ -60,7 +60,7 @@ class Kinematics(Node):
             data=[delta, delta, -delta, -delta])
         wheel_msg = Float64MultiArray(
             data=[omega_wheel, omega_wheel, omega_wheel, omega_wheel])
-
+        
         self.steering_pub.publish(steering_msg)
         self.wheel_pub.publish(wheel_msg)
 
