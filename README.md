@@ -1,6 +1,8 @@
 # fws_publisher
 
-Converts Twist messages to steering and wheel commands for park_bot https://github.com/nishalangovender/park_bot.
+> **Archived.** ROS2 dependency of [`park_bot`](https://github.com/nishalangovender/park_bot) — kept public so the `park_bot` quickstart `gh repo clone` step still works. Not maintained as a standalone package. For the current four-wheel-steering vehicle work, see [**park_bot**](https://github.com/nishalangovender/park_bot).
+
+Converts `Twist` messages to steering and wheel commands for park_bot. The kinematic derivations below are kept for reference.
 
 # Kinematics
 
